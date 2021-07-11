@@ -4,8 +4,8 @@ import "github.com/kamva/mgm/v3"
 
 type DailyJoke struct {
 	mgm.DefaultModel `bson:",inline"`
-	JokeTitle        string `json:"JokeTitle"`
-	JokeDescription  string `json:"JokeDescription"`
+	JokeTitle        string `json:"JokeTitle" validate:"required,min=5"`
+	JokeDescription  string `json:"JokeDescription" validate:"required,min=5"`
 	JokeImage        string `json:"JokeImage"`
-	JokeOwner        string `json:"JokeOwner"`
+	JokeOwner        string `json:"JokeOwner" validate:"required,min=3"`
 }

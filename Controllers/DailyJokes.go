@@ -7,6 +7,7 @@ import (
 	services "github.com/avinvvij/go-daily-jokes/Services"
 	"github.com/avinvvij/go-daily-jokes/models"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 func NewDailyJoke(c *gin.Context) {
@@ -18,13 +19,25 @@ func NewDailyJoke(c *gin.Context) {
 	}
 	var dailyJoke models.DailyJoke
 	json.Unmarshal(jsonData, &dailyJoke)
-	createdDailyJoke, err := services.NewDailyJoke(dailyJoke)
-	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{
-			"error": "Server error occurred",
+	validationError := validator.New().Struct(dailyJoke)
+	if validationError != nil {
+		errorResult := ""
+		for _, e := range validationError.(validator.ValidationErrors) {
+			errorResult += e.Error() + "; "
+		}
+		c.AbortWithStatusJSON(400, gin.H{
+			"message": "Invalid request body",
+			"errors":  errorResult,
 		})
 	} else {
-		c.JSON(201, createdDailyJoke)
+		createdDailyJoke, err := services.NewDailyJoke(dailyJoke)
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{
+				"error": "Server error occurred",
+			})
+		} else {
+			c.JSON(201, createdDailyJoke)
+		}
 	}
 }
 

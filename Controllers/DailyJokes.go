@@ -2,12 +2,15 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 
 	services "github.com/avinvvij/go-daily-jokes/Services"
 	"github.com/avinvvij/go-daily-jokes/models"
+	"github.com/avinvvij/go-daily-jokes/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	uuid "github.com/satori/go.uuid"
 )
 
 func NewDailyJoke(c *gin.Context) {
@@ -65,4 +68,19 @@ func GetJokeById(c *gin.Context) {
 
 func DeleteJoke(c *gin.Context) {
 
+}
+
+func GenerateAuthToken(c *gin.Context) {
+	uuid := uuid.NewV4().String()
+	_token, err := utils.GenerateJwt(uuid)
+	if err != nil {
+		fmt.Println(err)
+		c.AbortWithStatusJSON(500, gin.H{
+			"message": "Unable to generate token at the moment",
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"token": _token,
+		})
+	}
 }

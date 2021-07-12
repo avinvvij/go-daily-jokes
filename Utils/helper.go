@@ -23,3 +23,8 @@ func GenerateJwt(sessionId string) (string, error) {
 	// return (string)token , nil
 	return signedString, err
 }
+
+func NewClaims() *Claims{
+	claims := &Claims{}
+	return claims
+}

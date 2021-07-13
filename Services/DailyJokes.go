@@ -33,3 +33,29 @@ func GetJokeById(id string) (models.DailyJoke, error) {
 		return dailyJoke, nil
 	}
 }
+
+func PublishJoke(id string) (bool, error) {
+	dailyJoke, err := GetJokeById(id)
+	if err != nil {
+		return false, err
+	}
+	dailyJoke.Published = true
+	updateErr := mgm.Coll(&dailyJoke).Update(&dailyJoke)
+	if updateErr != nil {
+		return false, updateErr
+	}
+	return true, nil
+}
+
+func UnPublishJoke(id string) (bool ,error){
+	dailyJoke, err := GetJokeById(id)
+	if(err != nil){
+		return false, err
+	}
+	dailyJoke.Published = false;
+	updateErr := mgm.Coll(&dailyJoke).Update(&dailyJoke)
+	if updateErr != nil {
+		return false, updateErr
+	}
+	return true, nil
+}

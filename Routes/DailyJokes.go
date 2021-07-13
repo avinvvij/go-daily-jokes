@@ -8,9 +8,13 @@ import (
 func AddDailyJokesRoutes(routeGroup *gin.RouterGroup) {
 	dailyJokes := routeGroup.Group("/dailyjokes")
 
-	dailyJokes.GET("/token" , controllers.GenerateAuthToken)
+	dailyJokes.GET("/token", controllers.GenerateAuthToken)
 
 	dailyJokes.GET("/:id", controllers.GetJokeById)
+
+	dailyJokes.PUT("/publish/:id", controllers.PublishJoke )
+
+	dailyJokes.PUT("/unpublish/:id" , controllers.UnPublishJoke)
 
 	dailyJokes.POST("/", controllers.NewDailyJoke)
 

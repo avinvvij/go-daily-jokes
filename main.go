@@ -16,6 +16,7 @@ func main() {
 	server := gin.Default()
 	v1 := server.Group("/api/v1")
 	routes.AddDailyJokesRoutes(v1)
+	routes.AddAppSessionRoutes(v1)
 	err := mgm.SetDefaultConfig(nil, "daily_joke", options.Client().ApplyURI(os.Getenv("MONGO_URL")))
 	if err != nil {
 		fmt.Println("Unable to connect to database")

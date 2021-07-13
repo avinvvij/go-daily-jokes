@@ -84,3 +84,32 @@ func GenerateAuthToken(c *gin.Context) {
 		})
 	}
 }
+
+func PublishJoke(c *gin.Context) {
+	status, err := services.PublishJoke(c.Param("id"))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{
+			"error":   err.Error(),
+			"message": "Server error occurred",
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"status": status,
+		})
+	}
+}
+
+
+func UnPublishJoke(c *gin.Context){
+	status, err := services.UnPublishJoke(c.Param("id"))
+	if err != nil{
+		c.AbortWithStatusJSON(500, gin.H{
+			"error": err.Error(),
+			"message": "Server error occurred",
+		})
+	}else{
+		c.JSON(200, gin.H{
+			"status": status,
+		})
+	}
+}

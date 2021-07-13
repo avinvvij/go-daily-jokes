@@ -8,4 +8,5 @@ type DailyJoke struct {
 	JokeDescription  string `json:"JokeDescription" validate:"required,min=5"`
 	JokeImage        string `json:"JokeImage"`
 	JokeOwner        string `json:"JokeOwner" validate:"required,min=3"`
+	Published        bool `json:"Published" validate:"default:false"`
 }

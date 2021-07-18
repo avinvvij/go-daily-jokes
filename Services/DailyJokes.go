@@ -24,6 +24,18 @@ func GetAllJokes() ([]models.DailyJoke, error) {
 	}
 }
 
+func DeleteJoke(id string) (bool, error){
+	dailyJoke, err := GetJokeById(id)
+	if err != nil{
+		return false, err
+	}
+	deleteErr := mgm.Coll(&dailyJoke).Delete(&dailyJoke)
+	if deleteErr != nil{
+		return false, deleteErr
+	}
+	return true, nil
+}
+
 func GetJokeById(id string) (models.DailyJoke, error) {
 	dailyJoke := models.DailyJoke{}
 	err := mgm.Coll(&models.DailyJoke{}).FindByID(id, &dailyJoke)

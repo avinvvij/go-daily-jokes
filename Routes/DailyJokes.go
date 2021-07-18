@@ -19,6 +19,8 @@ func AddDailyJokesRoutes(routeGroup *gin.RouterGroup) {
 
 	dailyJokes.PUT("/unpublish/:id" , controllers.UnPublishJoke)
 
+	dailyJokes.DELETE("/delete/:id" , controllers.DeleteJoke )
+
 	dailyJokes.POST("/", controllers.NewDailyJoke)
 
 	dailyJokes.GET("/", controllers.GetAllDailyJokes)

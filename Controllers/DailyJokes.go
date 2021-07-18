@@ -67,7 +67,25 @@ func GetJokeById(c *gin.Context) {
 }
 
 func DeleteJoke(c *gin.Context) {
-
+	_id := c.Param("id")
+	status, err := services.DeleteJoke(_id)
+	if(err != nil){
+		c.AbortWithStatusJSON(500 , gin.H{
+			"error": err.Error(),
+			"message": "Server error occurred",
+		})
+	}else{
+		if(status) {
+			c.JSON(200, gin.H{
+ 				"message": "Successfully deleted the joke.",
+ 			})
+		}else{
+			c.JSON(500, gin.H{
+			 "error": "Server error occurred",
+			 "message": "Unable to delete the joke at the moment",
+		 })
+		}
+	}
 }
 
 func GenerateAuthToken(c *gin.Context) {
